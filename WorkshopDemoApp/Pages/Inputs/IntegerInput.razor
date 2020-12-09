@@ -1,0 +1,11 @@
+@using WorkshopDemoApp.Infrastructure.Metadata
+@inherits WorkshopDemoApp.Infrastructure.AbstractInputComponent
+
+<div class="row col-auto">
+    <label for="@MetadataInternal.Id" class="form-label">@MetadataInternal.Label</label>
+    <input id="@MetadataInternal.Id" type="number" name="@MetadataInternal.Id" value="@Value" @onchange="@OnValueChange" class="form-control"/>
+</div>
+
+@code {
+    IntegerInputMetadata MetadataInternal => this.Metadata as IntegerInputMetadata;
+}

@@ -1,0 +1,21 @@
+@using WorkshopDemoApp.Infrastructure.Metadata
+@inherits WorkshopDemoApp.Infrastructure.AbstractInputComponent
+
+<div class="row col auto">
+    <label for="@MetadataInternal.Id" class="form-label">@MetadataInternal.Label</label>
+    <input id="@MetadataInternal.Id" type="number" name="@MetadataInternal.Id" value="@Value" @onchange="@OnValueChange" step="any" class="form-control"/>
+</div>
+
+@code {
+    DecimalInputMetadata MetadataInternal => this.Metadata as DecimalInputMetadata;
+
+    public override async Task OnValueChange(ChangeEventArgs e)
+    {
+        if (decimal.TryParse(e.Value.ToString(), out decimal value))
+        {
+            this.Value = this.Metadata.Serialize(value);
+            await ValueChanged.InvokeAsync(this.Value);
+        }
+    }
+
+}

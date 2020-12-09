@@ -1,0 +1,44 @@
+@using WorkshopDemoApp.Infrastructure.Metadata
+@using WorkshopDemoApp.Infrastructure.ValueObjects
+@using Newtonsoft.Json
+@inherits WorkshopDemoApp.Infrastructure.AbstractInputComponent
+
+<div class="row col-auto">
+    <label for="@(PrefixId)" class="form-label">@MetadataInternal.Label</label>
+    <div class="col-sm-1">
+        <input id="@PrefixId" type="text" name="@PrefixId" value="@PhoneNumber.Prefix" @onchange="@OnPrefixChange" class="form-control"/>
+    </div>
+    <div>
+        <input id="@SuffixId" type="text" name="@SuffixId" value="@PhoneNumber.Suffix" @onchange="@OnSuffixChange" class="form-control"/>
+    </div>
+</div>
+@code {
+    PhoneNumberInputMetadata MetadataInternal => this.Metadata as PhoneNumberInputMetadata;
+    
+    private PhoneNumber PhoneNumber { get; set; }
+
+    private string PrefixId => this.MetadataInternal.Id + "-prefix";
+    private string SuffixId => this.MetadataInternal.Id + "-suffix";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        PhoneNumber = new PhoneNumber();
+    }
+
+    private async Task OnSuffixChange(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        this.PhoneNumber.Suffix = value;
+        this.Value = Metadata.Serialize(this.PhoneNumber);
+        await ValueChanged.InvokeAsync(this.Value);
+    }
+
+    private async Task OnPrefixChange(ChangeEventArgs e)
+    {
+        var value = e.Value.ToString();
+        this.PhoneNumber.Prefix = value;
+        this.Value = Metadata.Serialize(this.PhoneNumber);
+        await ValueChanged.InvokeAsync(this.Value);
+    }
+}

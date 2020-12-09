@@ -1,0 +1,56 @@
+@page "/formReport"
+@using WorkshopDemoApp.Infrastructure.Persistence
+@using WorkshopDemoApp.Infrastructure.Metadata
+@using WorkshopDemoApp.Infrastructure.Services
+@using Newtonsoft.Json
+@inject IFormRepository Repository
+@inject UserInformationFormBuilder FormBuilder
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+
+        @foreach (var item in FormBuilder.Metadata)
+        {
+            <th>@item.Label</th>
+        }
+    </tr>
+    </thead>
+
+    @foreach (var row in Values)
+    {
+        <tr>
+            @foreach(var item in row)
+            {
+                <td>@item</td>
+            }
+        </tr>
+    }
+</table>
+
+
+@code {
+
+    private List<List<string>> Values;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Values = new List<List<string>>();
+        
+        var dbData = Repository.Get(typeof(UserInformationFormBuilder));
+
+        foreach (var dictionary in dbData)
+        {
+            var inner = new List<string>();
+            foreach (var keyValuePair in dictionary)
+            {
+                var value = FormBuilder.GetMetadata<AbstractInputMetadata>(keyValuePair.Key).Deserialize(keyValuePair.Value.Value).ToString();
+                inner.Add(value);
+            }
+            Values.Add(inner);
+
+        }
+    }
+
+}

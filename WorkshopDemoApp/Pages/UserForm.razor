@@ -1,0 +1,31 @@
+@page "/form"
+@using WorkshopDemoApp.Infrastructure.Services
+@using WorkshopDemoApp.Infrastructure.Persistence
+@inject IFormRepository Repository
+@inject UserInformationFormBuilder FormBuilder
+
+<EditForm Model="@FormRenderer.Model" OnValidSubmit="@OnValidSubmit">
+    @foreach (var item in FormBuilder.Metadata)
+    {
+        @FormRenderer.Render(item);
+    } 
+    <br/>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+
+    public IFormRenderer FormRenderer;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        this.FormRenderer = new FormRenderer(FormBuilder);
+    }
+
+    public async Task OnValidSubmit()
+    {
+        await Repository.AddAsync(typeof(UserInformationFormBuilder), FormRenderer.Model);
+        await Repository.SaveChangesAsync();
+    }
+
+}

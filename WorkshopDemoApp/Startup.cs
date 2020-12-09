@@ -25,7 +25,9 @@ namespace WorkshopDemoApp
             services.AddServerSideBlazor();
             services.AddDbContext<WorkshopDbContext>();
             services.AddTransient<IFormRepository, FormRepository>();
+            services.AddSingleton<UserInformationFormBuilder>();
         }
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

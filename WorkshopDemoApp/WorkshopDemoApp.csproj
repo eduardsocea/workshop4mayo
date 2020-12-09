@@ -19,9 +19,21 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Folder Include="Infrastructure\Metadata" />
-      <Folder Include="Infrastructure\ValueObjects" />
-      <Folder Include="Pages\Inputs" />
+      <Content Update="Pages\Inputs\StringInput.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+      <Content Update="Pages\Inputs\IntegerInput.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+      <Content Update="Pages\Inputs\DecimalInput.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+      <Content Update="Pages\Inputs\PhoneNumberInput.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
+      <Content Update="Pages\UserForm.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </Content>
     </ItemGroup>
 
 </Project>
